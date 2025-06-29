@@ -26,10 +26,10 @@ HighQA CLI 是一个强大的命令行工具，用于与 HighQA 移动端自动�
 
 ```bash
 # 下载并运行安装脚本
-curl -fsSL https://raw.githubusercontent.com/your-org/highqa-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
 
 # 或者手动安装
-git clone https://github.com/your-org/highqa-cli.git
+git clone https://github.com/Maxwellos/highqa-cli.git
 cd highqa-cli
 chmod +x install.sh
 ./install.sh
@@ -39,7 +39,7 @@ chmod +x install.sh
 
 ```bash
 # 1. 下载CLI脚本
-wget https://raw.githubusercontent.com/your-org/highqa-cli/main/highqa-cli.sh
+wget https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/highqa-cli.sh
 chmod +x highqa-cli.sh
 
 # 2. 安装依赖
@@ -121,7 +121,7 @@ stages:
 mobile_test:
   stage: test
   before_script:
-    - curl -fsSL https://raw.githubusercontent.com/your-org/highqa-cli/main/install.sh | bash
+    - curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
   script:
     - highqa ci-run .highqa.yml
   artifacts:
@@ -146,7 +146,7 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: Install HighQA CLI
-        run: curl -fsSL https://raw.githubusercontent.com/your-org/highqa-cli/main/install.sh | bash
+        run: curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
       
       - name: Run Tests
         env:
@@ -165,7 +165,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                sh 'curl -fsSL https://raw.githubusercontent.com/your-org/highqa-cli/main/install.sh | bash'
+                sh 'curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash'
             }
         }
         stage('Test') {
@@ -196,7 +196,7 @@ pipeline {
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-org/highqa-cli.git
+git clone https://github.com/Maxwellos/highqa-cli.git
 cd highqa-cli
 
 # 运行测试
@@ -278,8 +278,8 @@ ls -la ~/.highqa/
 ## 🤝 支持
 
 - 📖 [文档](https://docs.highqa.com)
-- 🐛 [Issues](https://github.com/your-org/highqa-cli/issues)
-- 💬 [讨论](https://github.com/your-org/highqa-cli/discussions)
+- 🐛 [Issues](https://github.com/Maxwellos/highqa-cli/issues)
+- 💬 [讨论](https://github.com/Maxwellos/highqa-cli/discussions)
 - 📧 [邮件支持](mailto:support@highqa.com)
 
 ## 📄 许可证

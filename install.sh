@@ -6,8 +6,8 @@
 set -e
 
 # 配置
-GITHUB_REPO="your-org/highqa-cli"
-GITHUB_RAW_URL="https://raw.githubusercontent.com/$GITHUB_REPO/main"
+GITHUB_REPO="Maxwellos/highqa-cli"
+GITHUB_RAW_URL="https://raw.githubusercontent.com/$GITHUB_REPO/master"
 INSTALL_DIR="$HOME/.highqa"
 CLI_SCRIPT_URL="$GITHUB_RAW_URL/highqa-cli.sh"
 

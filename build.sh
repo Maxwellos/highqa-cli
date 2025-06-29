@@ -64,7 +64,7 @@ HighQA CLI v$VERSION 安装说明
 ===============================
 
 一键安装（推荐）:
-curl -fsSL https://raw.githubusercontent.com/your-org/highqa-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
 
 手动安装:
 1. 将 highqa-cli.sh 复制到您的系统路径

@@ -128,7 +128,7 @@ jobs:
           
           ```bash
           # 一键安装
-          curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
+          curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/master/install.sh | bash
           
           # 手动下载
           wget https://github.com/${{ github.repository }}/releases/download/v${{ steps.version_check.outputs.version }}/highqa-cli.sh
@@ -137,7 +137,7 @@ jobs:
           
           ### 更新内容
           
-          请查看 [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) 了解详细更新内容。
+          请查看 [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/master/CHANGELOG.md) 了解详细更新内容。
           
           ### 验证安装
           

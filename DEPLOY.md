@@ -60,7 +60,7 @@ git push origin v1.0.0
 
 ```bash
 # 一键安装
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/highqa-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
 
 # 手动下载
 wget https://github.com/YOUR_USERNAME/highqa-cli/releases/latest/download/highqa-cli.sh
