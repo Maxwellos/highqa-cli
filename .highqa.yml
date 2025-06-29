@@ -1,0 +1,115 @@
+# HighQA CLI 配置文件示例
+# 在项目根目录创建此文件以简化CLI命令使用
+
+# API配置
+api:
+  endpoint: https://api.highqa.com
+  token: ${HIGHQA_TOKEN}  # 建议使用环境变量
+
+# 默认设置
+defaults:
+  platform: android
+  timeout: 1800
+  retry_count: 2
+  wait_completion: true
+  output_format: json
+
+# 应用配置
+applications:
+  main_app:
+    id: 12345
+    name: "主应用"
+    platform: android
+  
+  ios_app:
+    id: 12346
+    name: "iOS应用"
+    platform: ios
+
+# 测试脚本配置
+scripts:
+  smoke_test:
+    id: 67890
+    name: "冒烟测试"
+    description: "基础功能验证"
+  
+  regression_test:
+    id: 67891
+    name: "回归测试"
+    description: "完整功能测试"
+  
+  performance_test:
+    id: 67892
+    name: "性能测试"
+    description: "性能基准测试"
+
+# 设备组配置
+device_groups:
+  smoke_test: "group:smoke-test"
+  full_test: "group:full-test"
+  performance_test: "group:high-end"
+  ci_test: "group:ci-quick"
+
+# 预定义测试套件
+testsuites:
+  # 快速冒烟测试
+  smoke:
+    name: "Smoke Test - ${CI_COMMIT_BRANCH:-manual}"
+    app_id: 12345
+    script_id: 67890
+    devices: "group:smoke-test"
+    timeout: 600
+    platform: android
+  
+  # 完整回归测试
+  regression:
+    name: "Regression Test - ${CI_COMMIT_BRANCH:-manual}"
+    app_id: 12345
+    script_id: 67891
+    devices: "group:full-test"
+    timeout: 3600
+    platform: android
+  
+  # 性能测试
+  performance:
+    name: "Performance Test - ${CI_COMMIT_BRANCH:-manual}"
+    app_id: 12345
+    script_id: 67892
+    devices: "group:high-end"
+    timeout: 2400
+    platform: android
+  
+  # CI/CD快速测试
+  ci_quick:
+    name: "CI Quick Test - ${CI_PIPELINE_ID:-$(date +%s)}"
+    app_id: 12345
+    script_id: 67890
+    devices: "group:ci-quick"
+    timeout: 900
+    platform: android
+
+# 通知配置
+notifications:
+  slack:
+    webhook_url: ${SLACK_WEBHOOK_URL}
+    channel: "#qa-alerts"
+    enabled: true
+  
+  email:
+    recipients:
+      - qa-team@company.com
+      - dev-team@company.com
+    enabled: false
+
+# 报告配置
+reports:
+  formats:
+    - junit
+    - html
+    - json
+  
+  output_dir: "./test-reports"
+  
+  archive:
+    enabled: true
+    retention_days: 30 

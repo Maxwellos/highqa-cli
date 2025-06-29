@@ -1,0 +1,82 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Linux
+*~
+.nfs*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+*.out
+*.err
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Test reports
+test-reports/
+reports/
+*.junit.xml
+
+# Configuration files with secrets
+.env
+.env.local
+.env.production
+config.local.yml
+config.production.yml
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js (if we add any js tools later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if we add any python tools later)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv
+ENV/
+env.bak/
+venv.bak/
+
+# Archives
+*.tar.gz
+*.zip
+*.tar
+*.rar
+
+# Build artifacts
+dist/
+build/
+release/
+
+# Local test files
+test-*
+demo-*
+local-* 

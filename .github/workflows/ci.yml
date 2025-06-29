@@ -1,0 +1,170 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test CLI Tool
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        if [[ "$RUNNER_OS" == "Linux" ]]; then
+          sudo apt-get update
+          sudo apt-get install -y curl jq
+        elif [[ "$RUNNER_OS" == "macOS" ]]; then
+          brew install curl jq
+        fi
+    
+    - name: Test CLI script syntax
+      run: |
+        bash -n highqa-cli.sh
+        bash -n install.sh
+    
+    - name: Test CLI help and version
+      run: |
+        chmod +x highqa-cli.sh
+        ./highqa-cli.sh help
+        ./highqa-cli.sh version
+    
+    - name: Test installation script (dry run)
+      run: |
+        chmod +x install.sh
+        # Test script syntax without actually installing
+        bash -n install.sh
+
+  lint:
+    name: Shell Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: '.'
+        format: gcc
+        severity: error
+      env:
+        SHELLCHECK_OPTS: -e SC2034 -e SC2154
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run security scan
+      run: |
+        # Check for common security issues in shell scripts
+        echo "Checking for hardcoded secrets..."
+        if grep -r "password\|secret\|token" --include="*.sh" . | grep -v "your_token_here" | grep -v "export.*TOKEN"; then
+          echo "⚠️ Potential hardcoded secrets found!"
+          exit 1
+        else
+          echo "✅ No hardcoded secrets found"
+        fi
+        
+        echo "Checking for dangerous commands..."
+        if grep -r "rm -rf \|sudo rm\|eval.*\$" --include="*.sh" .; then
+          echo "⚠️ Potentially dangerous commands found!"
+          exit 1
+        else
+          echo "✅ No dangerous commands found"
+        fi
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [test, lint, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Check if version changed
+      id: version_check
+      run: |
+        VERSION=$(grep "HighQA CLI Tool v" highqa-cli.sh | head -1 | sed 's/.*v\([0-9.]*\).*/\1/')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+        # Check if this version tag already exists
+        if git tag | grep -q "v$VERSION"; then
+          echo "version_changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "version_changed=true" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Create Release
+      if: steps.version_check.outputs.version_changed == 'true'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.version_check.outputs.version }}
+        release_name: Release v${{ steps.version_check.outputs.version }}
+        body: |
+          ## 🚀 HighQA CLI v${{ steps.version_check.outputs.version }}
+          
+          ### 安装方式
+          
+          ```bash
+          # 一键安装
+          curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
+          
+          # 手动下载
+          wget https://github.com/${{ github.repository }}/releases/download/v${{ steps.version_check.outputs.version }}/highqa-cli.sh
+          chmod +x highqa-cli.sh
+          ```
+          
+          ### 更新内容
+          
+          请查看 [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) 了解详细更新内容。
+          
+          ### 验证安装
+          
+          ```bash
+          highqa version
+          ```
+        draft: false
+        prerelease: false
+    
+    - name: Upload CLI Script
+      if: steps.version_check.outputs.version_changed == 'true'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./highqa-cli.sh
+        asset_name: highqa-cli.sh
+        asset_content_type: application/x-sh
+    
+    - name: Upload Install Script
+      if: steps.version_check.outputs.version_changed == 'true'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./install.sh
+        asset_name: install.sh
+        asset_content_type: application/x-sh 
