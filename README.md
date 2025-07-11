@@ -1,4 +1,6 @@
-# HighQA CLI
+# PandaTest CLI
+
+# 目前项目正在切换项目名称 维护期间
 
 🚀 移动端自动化测试平台的官方命令行工具
 
@@ -26,7 +28,7 @@ HighQA CLI 是一个强大的命令行工具，用于与 HighQA 移动端自动�
 
 ```bash
 # 下载并运行安装脚本
-curl -fsSL https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/PandaTestGrid/panda-test-cli/master/install.sh | bash
 
 # 或者手动安装
 git clone https://github.com/Maxwellos/highqa-cli.git
@@ -39,7 +41,7 @@ chmod +x install.sh
 
 ```bash
 # 1. 下载CLI脚本
-wget https://raw.githubusercontent.com/Maxwellos/highqa-cli/master/highqa-cli.sh
+wget https://raw.githubusercontent.com/PandaTestGrid/highqa-cli/master/panda-test-cli.sh
 chmod +x highqa-cli.sh
 
 # 2. 安装依赖
